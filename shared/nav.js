@@ -2,26 +2,22 @@
    LAKOU — shared/nav.js
    Fil d'ariane de liaison entre les sites du réseau Lakou.
 
-   UTILISATION :
-   Colle ce fichier dans un dossier /shared/ à la racine de
-   CHAQUE repo du réseau, puis ajoute cette ligne juste après
-   <body> dans chaque index.html :
+   UTILISATION (2 lignes, dans cet ordre, juste après <body>) :
 
-     <script src="shared/nav.js" data-site="archi" defer></script>
+     <script>window.LAKOU_SITE = "archi";</script>
+     <script src="shared/nav.js"></script>
 
-   Remplace data-site par la clé correspondant au site :
+   Remplace "archi" par la clé du site courant :
      "inivesite"    → Lakou Inivesite (la structure mère)
      "archi"        → Lakou Archi (page mère de la famille Archi)
      "architecture" → Architecture (discipline, sous Lakou Archi)
      "urbanisme"    → Urbanisme (discipline, sous Lakou Archi)
      "ingenierie"   → Lakou Enjenyè
 
-   Le bandeau affiche automatiquement le fil complet (ex :
-   Lakou Inivesite › Lakou Archi › Urbanisme) et ne transforme
-   jamais la page courante en lien.
-
-   Pour ajouter une nouvelle discipline plus tard, ajoute une
-   entrée à SITES avec son "parent", rien d'autre à changer.
+   Pas de "defer" nécessaire, pas de dépendance à
+   document.currentScript — juste une variable globale simple,
+   donc ça marche même si le script est déplacé, dupliqué,
+   ou chargé différemment d'un repo à l'autre.
    ============================================================ */
 
 (function () {
@@ -33,10 +29,13 @@
     ingenierie:   { label: "Lakou Enjenyè",   url: "https://lakou-enjenye26.vercel.app/index.html", parent: "inivesite" }
   };
 
-  const script = document.currentScript;
-  const current = (script && script.dataset.site) || "inivesite";
+  const current = window.LAKOU_SITE || "inivesite";
 
-  // Reconstitue le chemin depuis la racine jusqu'au site courant
+  if (!SITES[current]) {
+    console.warn('[Lakou nav.js] Site inconnu: "' + current + '". Vérifie window.LAKOU_SITE.');
+    return;
+  }
+
   const chain = [];
   let node = current;
   while (node && SITES[node]) {
@@ -47,6 +46,7 @@
   const style = document.createElement('style');
   style.textContent = `
     .lakou-network-bar{
+      position:relative; z-index:500;
       display:flex; align-items:center; gap:6px; flex-wrap:wrap;
       font-family:'Karla', 'Inter', sans-serif; font-size:0.72rem;
       background:#211712; color:#f2e4c8;
@@ -74,5 +74,14 @@
   });
 
   bar.innerHTML = parts.join(' ');
-  document.body.insertBefore(bar, document.body.firstChild);
+
+  function insertBar(){
+    document.body.insertBefore(bar, document.body.firstChild);
+  }
+
+  if (document.body) {
+    insertBar();
+  } else {
+    document.addEventListener('DOMContentLoaded', insertBar);
+  }
 })();
