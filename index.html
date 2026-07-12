@@ -15,9 +15,31 @@
   <a href="https://lakou-archi-rho.vercel.app/" class="logo-link">
     <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
   </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
-<section class="hero">
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+
+  <div class="menu-section">Navigation</div>
+  <a href="#top" data-close>Accueil<small>Retour en haut de page</small></a>
+  <a href="#types" data-close>Types de travaux<small>Diagnostic, atelier, plan, mémoire, SIG</small></a>
+  <a href="#projetsGrid" data-close>Galerie de projets<small>Les travaux publiés</small></a>
+
+  <div class="menu-section">Mon compte</div>
+  <div class="disabled">Connexion / Inscription <span class="tag-soon">Bientôt</span></div>
+  <div class="disabled">Tableau de bord <span class="tag-soon">Bientôt</span></div>
+  <div class="disabled">Paramètres <span class="tag-soon">Bientôt</span></div>
+
+  <div class="menu-section">À propos</div>
+  <div class="disabled">Articles <span class="tag-soon">Bientôt</span></div>
+  <a href="https://lakou-archi-rho.vercel.app/" data-close>Lakou Archi<small>Retour à la maison mère</small></a>
+
+</nav>
+
+<section class="hero" id="top">
   <img src="" alt="" class="hero-bg" onerror="this.style.display='none';">
   <div class="hero-scrim"></div>
   <div class="hero-content">
@@ -32,7 +54,7 @@
 
 <div class="section-label" style="margin-top:10px;"><span>Types de travaux</span><div class="line"></div></div>
 
-<section class="types-grid">
+<section class="types-grid" id="types">
 
   <div class="type-vignette">
     <div class="type-image">
