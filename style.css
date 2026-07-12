@@ -51,6 +51,45 @@ header{
 .logo-text{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:1.1rem; color:var(--blan); }
 .logo-text small{ display:block; font-family:'Inter',sans-serif; font-size:0.62rem; color:var(--corail); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; }
 
+.burger{
+  width:34px; height:28px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  background:none; border:none; cursor:pointer; z-index:200;
+}
+.burger span{ display:block; height:3px; border-radius:3px; background:var(--blan); transition:all .3s ease; }
+.burger.open span:nth-child(1){ transform:translateY(11px) rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ transform:translateY(-11px) rotate(-45deg); }
+
+.overlay{
+  position:fixed; inset:0; background:rgba(16,38,61,0.55);
+  opacity:0; pointer-events:none; transition:opacity .3s; z-index:140;
+}
+.overlay.open{ opacity:1; pointer-events:auto; }
+
+.menu-panel{
+  position:fixed; top:0; right:-100%; width:min(320px, 84vw); height:100%;
+  background:var(--navy); color:var(--blan);
+  z-index:150; padding:28px 26px 32px; overflow-y:auto;
+  transition:right .4s cubic-bezier(.65,0,.35,1);
+  box-shadow:-10px 0 40px rgba(0,0,0,.3);
+}
+.menu-panel.open{ right:0; }
+.menu-section{ font-size:0.65rem; text-transform:uppercase; letter-spacing:0.13em; color:var(--corail); font-weight:700; margin:22px 0 10px; }
+.menu-section:first-of-type{ margin-top:0; }
+.menu-panel a{
+  display:block; color:var(--blan); text-decoration:none;
+  font-family:'Space Grotesk', sans-serif; font-size:1.05rem; font-weight:600;
+  padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.menu-panel a small{ display:block; font-family:'Inter',sans-serif; font-weight:400; font-size:0.72rem; color:rgba(255,255,255,0.55); margin-top:3px; }
+.menu-panel .disabled{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  font-family:'Space Grotesk', sans-serif; font-size:1.05rem; font-weight:600; color:rgba(255,255,255,0.35);
+  padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.tag-soon{ flex-shrink:0; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:700; color:var(--navy); background:var(--corail); padding:3px 8px; border-radius:20px; }
+
 /* ---------- HERO ---------- */
 .hero{
   position:relative; z-index:1; overflow:hidden;
@@ -146,6 +185,7 @@ header{
   text-align:center; padding:36px 20px; border:2px dashed var(--liseret); border-radius:10px;
   color:var(--enk-doux); font-size:0.9rem; line-height:1.6; background:var(--blan);
 }
+
 /* ---------- BOUTON D'ACTION FLOTTANT ---------- */
 .fab{
   position:fixed; bottom:24px; right:20px; z-index:150;
@@ -158,6 +198,45 @@ header{
 
 footer{ position:relative; z-index:1; text-align:center; padding:36px 24px 90px; color:var(--enk-doux); font-size:0.82rem; }
 footer strong{ color:var(--navy); font-family:'Space Grotesk',sans-serif; }
+
+/* ---------- MODALS (détail projet + soumission) ---------- */
+.modal-overlay{
+  position:fixed; inset:0; z-index:300; background:rgba(16,38,61,0.65);
+  opacity:0; pointer-events:none; transition:opacity .3s; display:flex; align-items:flex-end;
+}
+.modal-overlay.open{ opacity:1; pointer-events:auto; }
+.modal{
+  background:var(--sable); width:100%; max-height:90vh; overflow-y:auto;
+  border-radius:16px 16px 0 0; border-top:3px solid var(--corail);
+  padding:26px 22px 32px; position:relative;
+  transform:translateY(100%); transition:transform .35s cubic-bezier(.32,.72,.24,1);
+}
+.modal-overlay.open .modal{ transform:translateY(0); }
+.modal-handle{ width:40px; height:4px; background:var(--liseret); border-radius:4px; margin:0 auto 18px; }
+.modal-close{ position:absolute; top:16px; right:18px; background:none; border:none; font-size:1.5rem; color:var(--navy); cursor:pointer; line-height:1; }
+
+.modal-image{ width:100%; aspect-ratio:16/9; border-radius:8px; overflow:hidden; margin-bottom:14px; border:1px solid var(--liseret); background:linear-gradient(135deg, var(--navy-2), var(--navy)); }
+.modal-image img{ width:100%; height:100%; object-fit:cover; }
+.modal h2{ color:var(--navy); font-size:1.4rem; margin-bottom:6px; }
+.modal-block{ margin-top:16px; }
+.modal-block h4{ font-size:0.68rem; text-transform:uppercase; letter-spacing:0.09em; color:var(--corail-fonce); font-weight:700; margin-bottom:6px; }
+.modal-block p{ font-size:0.9rem; line-height:1.6; color:var(--enk-doux); }
+
+/* Formulaire de soumission */
+.form-group{ margin-top:14px; }
+.form-group label{ display:block; font-size:0.75rem; font-weight:700; color:var(--navy); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+.form-group input, .form-group select, .form-group textarea{
+  width:100%; padding:11px 12px; border:1px solid var(--liseret); border-radius:6px;
+  background:var(--blan); font-family:'Inter',sans-serif; font-size:0.92rem; color:var(--enk);
+}
+.form-group textarea{ min-height:90px; resize:vertical; }
+.form-hint{ font-size:0.76rem; color:var(--enk-doux); margin-top:5px; }
+.form-row{ display:flex; gap:10px; }
+.form-row .form-group{ flex:1; }
+
+.submit-status{ margin-top:16px; padding:12px 14px; border-radius:6px; font-size:0.86rem; }
+.submit-status.ok{ background:rgba(232,96,76,0.1); color:var(--corail-fonce); border:1px solid var(--corail); }
+.submit-status.err{ background:rgba(196,74,56,0.1); color:var(--corail-fonce); border:1px solid var(--corail-fonce); }
 
 /* ============================================================
    RESPONSIVE
