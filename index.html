@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script src="shared/nav.js" data-site="urbanisme" defer></script>
 
 <header>
   <a href="https://lakou-archi-rho.vercel.app/" class="logo-link">
@@ -17,8 +18,12 @@
 </header>
 
 <section class="hero">
-  <h1>Urbanisme</h1>
-  <p>Penser et organiser l'espace urbain haïtien — le quartier, la ville, le territoire.</p>
+  <img src="" alt="" class="hero-bg" onerror="this.style.display='none';">
+  <div class="hero-scrim"></div>
+  <div class="hero-content">
+    <h1>Urbanisme</h1>
+    <p>Penser et organiser l'espace urbain haïtien — le quartier, la ville, le territoire.</p>
+  </div>
 </section>
 
 <section class="intro">
@@ -30,40 +35,55 @@
 <section class="types-grid">
 
   <div class="type-vignette">
-    <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
-    <div>
+    <div class="type-image">
+      <img src="" alt="Diagnostic territorial" onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-icon').style.display='block';">
+      <svg class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+    </div>
+    <div class="type-body">
       <h3>Diagnostic territorial</h3>
       <p>Une analyse d'un quartier ou d'une zone : ce qui existe, ce qui manque, ce qui pourrait changer.</p>
     </div>
   </div>
 
   <div class="type-vignette">
-    <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-    <div>
+    <div class="type-image">
+      <img src="" alt="Atelier d'urbanisme" onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-icon').style.display='block';">
+      <svg class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+    </div>
+    <div class="type-body">
       <h3>Atelier d'urbanisme</h3>
       <p>Un projet mené en groupe sur un vrai site, souvent avec une mairie ou une communauté comme commanditaire.</p>
     </div>
   </div>
 
   <div class="type-vignette">
-    <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 21h18M5 21V9l4-2v14M13 21V5l4 2v14M9 21v-4M17 21v-4"/></svg></div>
-    <div>
+    <div class="type-image">
+      <img src="" alt="Plan d'aménagement" onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-icon').style.display='block';">
+      <svg class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 21h18M5 21V9l4-2v14M13 21V5l4 2v14M9 21v-4M17 21v-4"/></svg>
+    </div>
+    <div class="type-body">
       <h3>Plan d'aménagement</h3>
       <p>Une proposition pour organiser l'espace : où construire, où garder des espaces verts, comment circuler.</p>
     </div>
   </div>
 
   <div class="type-vignette">
-    <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15z"/></svg></div>
-    <div>
+    <div class="type-image">
+      <img src="" alt="Mémoire de recherche" onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-icon').style.display='block';">
+      <svg class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15z"/></svg>
+    </div>
+    <div class="type-body">
       <h3>Mémoire de recherche</h3>
       <p>Un travail écrit approfondi sur une question urbaine précise, mené sur plusieurs mois.</p>
     </div>
   </div>
 
   <div class="type-vignette">
-    <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg></div>
-    <div>
+    <div class="type-image">
+      <img src="" alt="Cartographie et SIG" onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-icon').style.display='block';">
+      <svg class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+    </div>
+    <div class="type-body">
       <h3>Cartographie &amp; SIG</h3>
       <p>Des cartes qui montrent et analysent le territoire, souvent réalisées avec des logiciels spécialisés.</p>
     </div>
@@ -73,9 +93,9 @@
 
 <div class="section-label" style="margin-top:34px;"><span>Projets</span><div class="line"></div></div>
 
-<section class="projets">
-  <div class="empty-state">
-    Les travaux des étudiants en urbanisme s'afficheront ici bientôt.
+<section class="projets" id="projetsGrid">
+  <div class="empty-state" id="projetsEmpty">
+    Chargement des travaux...
   </div>
 </section>
 
@@ -83,10 +103,92 @@
   <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
 </footer>
 
-<!-- Bouton d'action flottant — soumission à venir -->
-<button class="fab" aria-label="Soumettre un travail">
+<!-- Bouton d'action flottant — ouvre le formulaire de soumission -->
+<button class="fab" id="fabBtn" aria-label="Soumettre un travail">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
 </button>
 
+<!-- MODAL : détail d'un projet -->
+<div class="modal-overlay" id="detailOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close-detail>×</button>
+    <div class="modal-handle"></div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- MODAL : soumission d'un travail -->
+<div class="modal-overlay" id="submitOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close-submit>×</button>
+    <div class="modal-handle"></div>
+    <h2>Soumettre un travail</h2>
+    <p style="font-size:0.85rem; color:var(--enk-doux); margin-top:6px;">Ton travail sera examiné avant d'être publié sur le site.</p>
+
+    <form id="submitForm">
+      <div class="form-group">
+        <label for="f-title">Titre du travail</label>
+        <input type="text" id="f-title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="f-type">Type de travail</label>
+        <select id="f-type" required>
+          <option value="diagnostic">Diagnostic territorial</option>
+          <option value="atelier">Atelier d'urbanisme</option>
+          <option value="plan_amenagement">Plan d'aménagement</option>
+          <option value="memoire">Mémoire de recherche</option>
+          <option value="cartographie">Cartographie &amp; SIG</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="f-desc">Description</label>
+        <textarea id="f-desc" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-location">Localisation</label>
+          <input type="text" id="f-location" placeholder="Ex: Les Cayes">
+        </div>
+        <div class="form-group">
+          <label for="f-level">Niveau</label>
+          <select id="f-level">
+            <option value="">—</option>
+            <option value="L1">L1</option>
+            <option value="L2">L2</option>
+            <option value="L3">L3</option>
+            <option value="M1">M1</option>
+            <option value="M2">M2</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="f-cover">Image de couverture</label>
+        <input type="file" id="f-cover" accept="image/*">
+        <div class="form-hint">Optionnel — tu peux aussi l'ajouter plus tard.</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-name">Ton nom</label>
+          <input type="text" id="f-name" required>
+        </div>
+        <div class="form-group">
+          <label for="f-email">Ton email</label>
+          <input type="email" id="f-email" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" style="width:100%; margin-top:20px;" id="submitBtn">Envoyer</button>
+      <div id="submitStatus"></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
 </body>
 </html>
