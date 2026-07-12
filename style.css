@@ -69,13 +69,13 @@ header{
 
 .menu-panel{
   position:fixed; top:0; right:-100%; width:min(320px, 84vw); height:100%;
-  background:var(--navy); color:var(--blan);
+  background:rgba(16,38,61,0.93); backdrop-filter:blur(14px); color:var(--blan);
   z-index:150; padding:28px 26px 32px; overflow-y:auto;
   transition:right .4s cubic-bezier(.65,0,.35,1);
   box-shadow:-10px 0 40px rgba(0,0,0,.3);
 }
 .menu-panel.open{ right:0; }
-.menu-section{ font-size:0.65rem; text-transform:uppercase; letter-spacing:0.13em; color:var(--corail); font-weight:700; margin:22px 0 10px; }
+.menu-section{ font-size:0.65rem; text-transform:uppercase; letter-spacing:0.13em; color:rgba(232,96,76,0.75); font-weight:700; margin:22px 0 10px; }
 .menu-section:first-of-type{ margin-top:0; }
 .menu-panel a{
   display:block; color:var(--blan); text-decoration:none;
@@ -88,7 +88,21 @@ header{
   font-family:'Space Grotesk', sans-serif; font-size:1.05rem; font-weight:600; color:rgba(255,255,255,0.35);
   padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.1);
 }
-.tag-soon{ flex-shrink:0; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:700; color:var(--navy); background:var(--corail); padding:3px 8px; border-radius:20px; }
+.tag-soon{ flex-shrink:0; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.05em; font-weight:700; color:var(--blan); background:rgba(232,96,76,0.55); padding:3px 8px; border-radius:20px; }
+
+/* Accordéon "Types de travaux" dans le menu */
+.menu-accordion-toggle{
+  width:100%; background:none; border:none; text-align:left; cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  color:var(--blan); font-family:'Space Grotesk', sans-serif; font-size:1.05rem; font-weight:600;
+  padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.menu-accordion-toggle small{ display:block; font-family:'Inter',sans-serif; font-weight:400; font-size:0.72rem; color:rgba(255,255,255,0.55); margin-top:3px; }
+.menu-accordion-toggle .chevron{ width:16px; height:16px; flex-shrink:0; transition:transform .3s ease; opacity:0.7; }
+.menu-accordion-toggle.open .chevron{ transform:rotate(180deg); }
+.menu-submenu{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.menu-submenu.open{ max-height:280px; }
+.menu-submenu a{ padding:9px 0 9px 14px; font-size:0.92rem; font-weight:500; border-bottom:1px solid rgba(255,255,255,0.06); }
 
 /* ---------- HERO ---------- */
 .hero{
@@ -185,6 +199,35 @@ header{
   text-align:center; padding:36px 20px; border:2px dashed var(--liseret); border-radius:10px;
   color:var(--enk-doux); font-size:0.9rem; line-height:1.6; background:var(--blan);
 }
+
+/* ---------- TEASER GALERIE (page d'accueil) ---------- */
+.galerie-teaser{
+  position:relative; z-index:1; max-width:600px; margin:0 auto; padding:20px 20px 50px;
+  text-align:center;
+}
+.galerie-teaser p{ font-size:0.94rem; color:var(--enk-doux); line-height:1.6; margin-bottom:6px; }
+
+/* ---------- PAGE GALERIE ---------- */
+.galerie-hero{
+  position:relative; z-index:1;
+  background:linear-gradient(160deg, var(--navy), var(--navy-3));
+  padding:38px 24px 30px; text-align:center;
+}
+.galerie-hero h1{ font-size:clamp(1.7rem, 6vw, 2.4rem); color:var(--blan); }
+.galerie-hero p{ margin-top:8px; font-size:0.9rem; color:rgba(255,255,255,0.75); }
+
+.filter-bar{
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto; padding:18px 20px 4px;
+  display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+}
+.filter-chip{
+  flex-shrink:0; padding:8px 16px; border-radius:20px; text-decoration:none;
+  font-size:0.82rem; font-weight:600; font-family:'Space Grotesk',sans-serif;
+  background:var(--blan); color:var(--navy); border:1px solid var(--liseret);
+  white-space:nowrap;
+}
+.filter-chip.active{ background:var(--corail); color:var(--blan); border-color:var(--corail); }
 
 /* ---------- BOUTON D'ACTION FLOTTANT ---------- */
 .fab{
