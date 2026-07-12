@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galerie — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script src="shared/nav.js" data-site="urbanisme" defer></script>
+
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil<small>Retour à la page d'accueil</small></a>
+
+  <button class="menu-accordion-toggle" id="typesToggle">
+    <span>Types de travaux<small>Diagnostic, atelier, plan, mémoire, SIG</small></span>
+    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+  <div class="menu-submenu" id="typesSubmenu">
+    <a href="galerie.html?type=diagnostic">Diagnostic territorial</a>
+    <a href="galerie.html?type=atelier">Atelier d'urbanisme</a>
+    <a href="galerie.html?type=plan_amenagement">Plan d'aménagement</a>
+    <a href="galerie.html?type=memoire">Mémoire de recherche</a>
+    <a href="galerie.html?type=cartographie">Cartographie &amp; SIG</a>
+  </div>
+
+  <a href="galerie.html" data-close>Galerie de projets<small>Tous les travaux publiés</small></a>
+
+  <div class="menu-section">Mon compte</div>
+  <div class="disabled">Connexion / Inscription <span class="tag-soon">Bientôt</span></div>
+  <div class="disabled">Tableau de bord <span class="tag-soon">Bientôt</span></div>
+  <div class="disabled">Paramètres <span class="tag-soon">Bientôt</span></div>
+
+  <div class="menu-section">À propos</div>
+  <div class="disabled">Articles <span class="tag-soon">Bientôt</span></div>
+  <a href="https://lakou-archi-rho.vercel.app/" data-close>Lakou Archi<small>Retour à la maison mère</small></a>
+
+</nav>
+
+<section class="galerie-hero">
+  <h1 id="galerieTitle">Galerie des projets</h1>
+  <p id="galerieSubtitle">Tous les travaux publiés par les étudiants en urbanisme.</p>
+</section>
+
+<div class="filter-bar" id="filterBar">
+  <a href="galerie.html" class="filter-chip" data-type="">Tous</a>
+  <a href="galerie.html?type=diagnostic" class="filter-chip" data-type="diagnostic">Diagnostic territorial</a>
+  <a href="galerie.html?type=atelier" class="filter-chip" data-type="atelier">Atelier d'urbanisme</a>
+  <a href="galerie.html?type=plan_amenagement" class="filter-chip" data-type="plan_amenagement">Plan d'aménagement</a>
+  <a href="galerie.html?type=memoire" class="filter-chip" data-type="memoire">Mémoire de recherche</a>
+  <a href="galerie.html?type=cartographie" class="filter-chip" data-type="cartographie">Cartographie &amp; SIG</a>
+</div>
+
+<section class="projets" id="projetsGrid">
+  <div class="empty-state" id="projetsEmpty">Chargement des travaux...</div>
+</section>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<!-- MODAL : détail d'un projet -->
+<div class="modal-overlay" id="detailOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close-detail>×</button>
+    <div class="modal-handle"></div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="galerie.js"></script>
+</body>
+</html>
