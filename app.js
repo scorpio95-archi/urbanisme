@@ -7,6 +7,21 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// ---------- MENU HAMBURGER ----------
+const burgerBtn = document.getElementById('burgerBtn');
+const menuPanel = document.getElementById('menuPanel');
+const overlay = document.getElementById('overlay');
+
+function toggleMenu(force){
+  const open = force !== undefined ? force : !menuPanel.classList.contains('open');
+  menuPanel.classList.toggle('open', open);
+  overlay.classList.toggle('open', open);
+  burgerBtn.classList.toggle('open', open);
+}
+burgerBtn.addEventListener('click', () => toggleMenu());
+overlay.addEventListener('click', () => toggleMenu(false));
+document.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
 const TYPE_LABELS = {
   diagnostic: 'Diagnostic territorial',
   atelier: "Atelier d'urbanisme",
