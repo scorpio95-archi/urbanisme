@@ -61,6 +61,10 @@ submitForm.addEventListener('submit', async (e) => {
       coverUrl = urlData.publicUrl;
     }
 
+    // Si l'utilisateur est connecté, on rattache la soumission à son compte
+    // (sinon elle n'apparaîtra jamais dans son tableau de bord "Mes travaux")
+    const { data: { session } } = await sb.auth.getSession();
+
     // Si l'utilisateur est connecté en tant qu'enseignant, la base
     // auto-valide et publie le travail (voir la migration Supabase).
     // Sinon, il part en attente de validation.
@@ -71,6 +75,7 @@ submitForm.addEventListener('submit', async (e) => {
       location: document.getElementById('f-location').value || null,
       level: document.getElementById('f-level').value || null,
       cover_image_url: coverUrl,
+      student_id: session ? session.user.id : null,
       contributor_name: document.getElementById('f-name').value,
       contributor_email: document.getElementById('f-email').value,
       status: 'pending',
