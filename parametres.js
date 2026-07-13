@@ -84,13 +84,20 @@ paramsWrap.innerHTML = `
     <!-- ---------- INFOS DE BASE ---------- -->
     <div class="section-label" style="margin-top:30px;"><span>Infos de base</span><div class="line"></div></div>
     <form id="basicForm">
-      <div style="display:flex; align-items:center; gap:14px; margin-top:14px;">
-        <img id="avatarPreview" src="${p.avatar_url || ''}" onerror="this.style.display='none';"
-             style="width:64px; height:64px; border-radius:50%; object-fit:cover; background:var(--liseret); flex-shrink:0;">
-        <div style="flex:1;">
-          <label for="p-avatar" style="display:block; font-size:0.75rem; font-weight:700; color:var(--navy); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Photo de profil</label>
-          <input type="file" id="p-avatar" accept="image/*">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:14px;">
+        <div id="avatarCircle" style="width:88px; height:88px; border-radius:50%; overflow:hidden; background:var(--navy); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          ${p.avatar_url
+            ? `<img id="avatarImg" src="${escapeAttr(p.avatar_url)}" style="width:100%; height:100%; object-fit:cover;">`
+            : `<span id="avatarInitial" style="color:var(--blan); font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2rem;">${escapeHtml(getInitial(p.full_name))}</span>`}
         </div>
+        <button type="button" id="avatarCameraBtn" aria-label="Changer la photo de profil"
+                style="width:32px; height:32px; border-radius:50%; border:1px solid var(--liseret); background:var(--blan); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" style="width:16px; height:16px;">
+            <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </button>
+        <input type="file" id="p-avatar" accept="image/*" style="display:none;">
       </div>
 
       <div class="form-group">
@@ -193,13 +200,15 @@ function wireBasicForm(){
   const btn = document.getElementById('basicBtn');
   const status = document.getElementById('basicStatus');
   const avatarInput = document.getElementById('p-avatar');
-  const avatarPreview = document.getElementById('avatarPreview');
+  const avatarCircle = document.getElementById('avatarCircle');
+  const cameraBtn = document.getElementById('avatarCameraBtn');
+
+  cameraBtn.addEventListener('click', () => avatarInput.click());
 
   avatarInput.addEventListener('change', () => {
     const file = avatarInput.files[0];
     if (file){
-      avatarPreview.src = URL.createObjectURL(file);
-      avatarPreview.style.display = 'block';
+      avatarCircle.innerHTML = `<img src="${URL.createObjectURL(file)}" style="width:100%; height:100%; object-fit:cover;">`;
     }
   });
 
@@ -214,10 +223,10 @@ function wireBasicForm(){
       const file = avatarInput.files[0];
 
       if (file){
-        const path = `avatars/${currentUser.id}-${Date.now()}-${file.name}`;
-        const { error: uploadError } = await sb.storage.from('urbanisme').upload(path, file, { upsert: true });
+        const path = `${currentUser.id}-${Date.now()}-${file.name}`;
+        const { error: uploadError } = await sb.storage.from('avatars').upload(path, file, { upsert: true });
         if (uploadError) throw uploadError;
-        const { data: urlData } = sb.storage.from('urbanisme').getPublicUrl(path);
+        const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
         avatarUrl = urlData.publicUrl;
       }
 
@@ -393,6 +402,9 @@ function wirePasswordForm(){
 }
 
 // ---------- UTILITAIRES ----------
+function getInitial(name){
+  return (name || '?').trim().charAt(0).toUpperCase() || '?';
+}
 function escapeHtml(str){
   return String(str)
     .replace(/&/g, '&amp;')
