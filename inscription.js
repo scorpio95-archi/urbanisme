@@ -60,7 +60,13 @@ signupForm.addEventListener('submit', async (e) => {
   const schoolOther = schoolChoice === 'autre' ? document.getElementById('s-school-other').value : null;
 
   try {
-    const { data: signUpData, error: signUpError } = await sb.auth.signUp({ email, password });
+    const { data: signUpData, error: signUpError } = await sb.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: 'https://urbanisme-one.vercel.app/connexion.html'
+      }
+    });
     if (signUpError) throw signUpError;
 
     const userId = signUpData.user ? signUpData.user.id : null;
