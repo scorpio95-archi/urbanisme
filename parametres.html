@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paramètres — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:sans-serif;font-size:0.72rem;background:#211712;color:#f2e4c8;padding:7px 16px;">
+  <a href="https://lakou-inivesite.vercel.app/" style="color:#f2e4c8;text-decoration:none;font-weight:700;">🏠 Lakou Inivesite</a>
+  <span style="opacity:0.4;">›</span>
+  <a href="https://lakou-archi-rho.vercel.app/" style="color:#f2e4c8;text-decoration:none;font-weight:700;">Lakou Archi</a>
+  <span style="opacity:0.4;">›</span>
+  <a href="index.html" style="color:#f2e4c8;text-decoration:none;font-weight:700;">Urbanisme</a>
+  <span style="opacity:0.4;">›</span>
+  <a href="tableau-de-bord.html" style="color:#f2e4c8;text-decoration:none;font-weight:700;">Tableau de bord</a>
+  <span style="opacity:0.4;">›</span>
+  <span style="opacity:0.6;">Paramètres</span>
+</div>
+
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="btn-logout" id="logoutBtn">Déconnexion</button>
+</header>
+
+<section class="dash-wrap" id="paramsWrap">
+  <div class="empty-state">Chargement...</div>
+</section>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="parametres.js"></script>
+</body>
+</html>
