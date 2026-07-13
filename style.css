@@ -315,3 +315,38 @@ footer strong{ color:var(--navy); font-family:'Space Grotesk',sans-serif; }
   .intro{ max-width:760px; }
   .fab{ bottom:32px; right:32px; }
 }
+/* ---------- TABLEAU DE BORD ---------- */
+.btn-logout{
+  padding:8px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.3);
+  background:none; color:var(--blan); font-family:'Inter',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer;
+}
+
+.dash-wrap{ max-width:640px; margin:0 auto; padding:30px 20px 60px; position:relative; z-index:1; }
+.dash-header{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.dash-header h1{ font-size:1.5rem; color:var(--navy); }
+
+.role-pill{ font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding:5px 12px; border-radius:20px; }
+.role-pill.role-student{ background:var(--navy); color:var(--blan); }
+.role-pill.role-teacher{ background:var(--corail); color:var(--blan); }
+.role-pill.role-admin{ background:var(--enk); color:var(--blan); }
+
+.dash-list{ display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+.dash-row{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  background:var(--blan); border:1px solid var(--liseret); border-radius:8px; padding:14px 16px;
+}
+.dash-row-title{ font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--navy); font-size:0.95rem; }
+.dash-row-meta{ font-size:0.78rem; color:var(--enk-doux); margin-top:2px; }
+
+.status-pill{ font-size:0.68rem; font-weight:700; text-transform:uppercase; padding:4px 10px; border-radius:20px; flex-shrink:0; }
+.status-pill.status-pending{ background:#f0e6d2; color:#8a6d1f; }
+.status-pill.status-approved{ background:rgba(63,107,82,0.15); color:#3f6b52; }
+.status-pill.status-rejected{ background:rgba(196,74,56,0.12); color:var(--corail-fonce); }
+
+.dash-row-validate{ flex-direction:column; align-items:flex-start; }
+.dash-actions{ display:flex; gap:8px; width:100%; margin-top:10px; }
+.btn-approve, .btn-reject{
+  flex:1; padding:10px; border-radius:6px; border:none; font-weight:700; font-size:0.82rem; cursor:pointer;
+}
+.btn-approve{ background:#3f6b52; color:#fff; }
+.btn-reject{ background:none; color:var(--corail-fonce); border:1px solid var(--corail-fonce); }
