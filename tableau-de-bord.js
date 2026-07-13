@@ -39,7 +39,7 @@ async function init(){
 
   const { data: profile, error: profileError } = await sb
     .from('profiles')
-    .select('full_name, role, school, school_id')
+    .select('full_name, role, school, school_id, avatar_url')
     .eq('id', userId)
     .single();
 
@@ -53,10 +53,20 @@ async function init(){
 
 function renderDashboard(profile, userId){
   const roleLabel = profile.role === 'teacher' ? 'Enseignant' : profile.role === 'admin' ? 'Admin' : 'Étudiant';
+  const initial = (profile.full_name || '?').trim().charAt(0).toUpperCase() || '?';
+  const initialSafe = initial.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const avatarHtml = profile.avatar_url
+    ? `<img src="${profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`
+    : `<span style="color:var(--blan); font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.3rem;">${initialSafe}</span>`;
 
   dashWrap.innerHTML = `
     <div class="dash-header">
-      <h1>Bonjour, ${profile.full_name || 'toi'}</h1>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="width:52px; height:52px; border-radius:50%; overflow:hidden; background:var(--navy); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          ${avatarHtml}
+        </div>
+        <h1>Bonjour, ${profile.full_name || 'toi'}</h1>
+      </div>
       <span class="role-pill role-${profile.role}">${roleLabel}</span>
     </div>
 
