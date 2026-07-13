@@ -281,6 +281,25 @@ footer strong{ color:var(--navy); font-family:'Space Grotesk',sans-serif; }
 .submit-status.ok{ background:rgba(232,96,76,0.1); color:var(--corail-fonce); border:1px solid var(--corail); }
 .submit-status.err{ background:rgba(196,74,56,0.1); color:var(--corail-fonce); border:1px solid var(--corail-fonce); }
 
+/* ---------- AUTH (inscription / connexion) ---------- */
+.auth-wrap{ max-width:440px; margin:0 auto; padding:36px 22px 60px; position:relative; z-index:1; }
+.auth-wrap h1{ font-size:1.7rem; color:var(--navy); margin-bottom:6px; }
+.auth-wrap .sub{ font-size:0.9rem; color:var(--enk-doux); margin-bottom:26px; }
+
+.role-toggle{ display:flex; gap:10px; margin-bottom:8px; }
+.role-btn{
+  flex:1; padding:14px; text-align:center; border-radius:8px; cursor:pointer;
+  border:2px solid var(--liseret); background:var(--blan);
+  font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.92rem; color:var(--enk-doux);
+}
+.role-btn.active{ border-color:var(--navy); background:var(--navy); color:var(--blan); }
+
+.school-other{ display:none; margin-top:10px; }
+.school-other.show{ display:block; }
+
+.auth-switch{ text-align:center; margin-top:20px; font-size:0.88rem; color:var(--enk-doux); }
+.auth-switch a{ color:var(--corail-fonce); font-weight:700; text-decoration:none; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
