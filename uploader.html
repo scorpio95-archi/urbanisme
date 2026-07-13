@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uploader — Lakou</title>
+<style>
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; padding:24px 18px 60px; background:#141414; color:#f0f0f0;
+    font-family:-apple-system, sans-serif; min-height:100vh;
+  }
+  h1{ font-size:1.3rem; margin-bottom:4px; }
+  p.sub{ color:#999; font-size:0.85rem; margin-bottom:24px; }
+  label{ display:block; font-size:0.8rem; font-weight:600; color:#aaa; text-transform:uppercase; letter-spacing:0.04em; margin:18px 0 8px; }
+  select, input[type="text"]{
+    width:100%; padding:12px; border-radius:8px; border:1px solid #333;
+    background:#1e1e1e; color:#fff; font-size:1rem;
+  }
+  input[type="file"]{ width:100%; padding:12px 0; color:#ccc; }
+  button{
+    width:100%; margin-top:22px; padding:15px; border:none; border-radius:8px;
+    background:#4f7cff; color:#fff; font-size:1rem; font-weight:700; cursor:pointer;
+  }
+  button:disabled{ background:#3a3a3a; color:#777; }
+  .result{
+    margin-top:20px; padding:14px; border-radius:8px; font-size:0.85rem; line-height:1.5; word-break:break-all;
+  }
+  .result.ok{ background:#132d1e; border:1px solid #2e6b46; color:#8fe0b0; }
+  .result.err{ background:#301616; border:1px solid #6b2e2e; color:#e08f8f; }
+  .result a{ color:#8fe0b0; }
+  .copy-btn{
+    display:inline-block; margin-top:10px; padding:8px 14px; border-radius:6px;
+    background:#2e6b46; color:#fff; font-size:0.8rem; font-weight:600; cursor:pointer; border:none;
+  }
+  .preview{ margin-top:14px; max-width:100%; border-radius:8px; display:none; }
+</style>
+</head>
+<body>
+
+<h1>Uploader Lakou</h1>
+<p class="sub">Envoie directement vers Supabase Storage — contourne le dashboard.</p>
+
+<label for="bucket">Bucket</label>
+<select id="bucket">
+  <option value="urbanisme">urbanisme</option>
+  <option value="lakou-archi">lakou-archi</option>
+  <option value="lakou-inivesite">lakou-inivesite</option>
+</select>
+
+<label for="folder">Dossier (optionnel)</label>
+<input type="text" id="folder" placeholder="ex: types, cartes, banniere">
+
+<label for="file">Fichier</label>
+<input type="file" id="file" accept="image/*">
+
+<img id="preview" class="preview">
+
+<button id="uploadBtn">Envoyer</button>
+
+<div id="result"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://qptnjgdfobznwmsguvyf.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFwdG5qZ2Rmb2J6bndtc2d1dnlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MjA3MjIsImV4cCI6MjA5MzQ5NjcyMn0.QLfIITvc-AdWVLZHHghocNYyYyYvPxZZMAXhdl_4Bdo';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const fileInput = document.getElementById('file');
+  const preview = document.getElementById('preview');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const resultBox = document.getElementById('result');
+
+  fileInput.addEventListener('change', () => {
+    const f = fileInput.files[0];
+    if (f){
+      preview.src = URL.createObjectURL(f);
+      preview.style.display = 'block';
+    }
+  });
+
+  uploadBtn.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file){
+      resultBox.innerHTML = `<div class="result err">Choisis d'abord un fichier.</div>`;
+      return;
+    }
+
+    const bucket = document.getElementById('bucket').value;
+    const folder = document.getElementById('folder').value.trim();
+    const cleanName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+    const path = (folder ? folder.replace(/\/+$/,'') + '/' : '') + Date.now() + '-' + cleanName;
+
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = 'Envoi en cours...';
+    resultBox.innerHTML = '';
+
+    try {
+      const { error } = await sb.storage.from(bucket).upload(path, file);
+      if (error) throw error;
+
+      const { data: urlData } = sb.storage.from(bucket).getPublicUrl(path);
+      const publicUrl = urlData.publicUrl;
+
+      resultBox.innerHTML = `
+        <div class="result ok">
+          Envoyé avec succès dans <strong>${bucket}</strong> !<br><br>
+          <a href="${publicUrl}" target="_blank">${publicUrl}</a><br>
+          <button class="copy-btn" id="copyBtn">Copier le lien</button>
+        </div>
+      `;
+      document.getElementById('copyBtn').addEventListener('click', () => {
+        navigator.clipboard.writeText(publicUrl);
+        document.getElementById('copyBtn').textContent = 'Copié !';
+      });
+
+    } catch (err){
+      resultBox.innerHTML = `<div class="result err">Erreur : ${err.message || err}</div>`;
+    } finally {
+      uploadBtn.disabled = false;
+      uploadBtn.textContent = 'Envoyer';
+    }
+  });
+</script>
+
+</body>
+</html>
