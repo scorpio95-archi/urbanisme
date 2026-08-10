@@ -1,5 +1,7 @@
 /* ============================================================
    URBANISME — galerie.js
+   Interroge les 5 tables d'ateliers isolées en parallèle,
+   fusionne et trie côté client (pas de table partagée).
    ============================================================ */
 
 const SUPABASE_URL = 'https://rqtkcnpibhgmnbzuwyfq.supabase.co';
@@ -7,12 +9,20 @@ const SUPABASE_ANON_KEY = 'sb_publishable_Uz7jG2Q8EQPTjDRTIo1jCA_xwOzFkJw';
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const TYPE_LABELS = {
-  diagnostic: 'Diagnostic territorial',
-  atelier: "Atelier d'urbanisme",
-  plan_amenagement: "Plan d'aménagement",
-  memoire: 'Mémoire de recherche',
-  cartographie: 'Cartographie & SIG'
+const ATELIERS = {
+  diagnostic: { table: 'urba_diagnostic_projects', label: 'Diagnostic territorial' },
+  atelier:    { table: 'urba_atelier_projects',    label: 'Atelier de projet urbain' },
+  plan:       { table: 'urba_plan_projects',       label: "Plan d'aménagement" },
+  memoire:    { table: 'urba_memoire_projects',    label: 'Mémoire de recherche' },
+  sig:        { table: 'urba_sig_projects',        label: 'Cartographie & SIG' }
+};
+
+const ENJEU_LABELS = {
+  risques_resilience: 'Risques & résilience',
+  habitat_informel: 'Habitat informel',
+  mobilite: 'Mobilité urbaine',
+  foncier: 'Gouvernance foncière',
+  autre: 'Autre enjeu'
 };
 
 const FALLBACK_ICON = `<svg class="fallback-icon" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 21h18M5 21V9l4-2v14M13 21V5l4 2v14M9 21v-4M17 21v-4"/></svg>`;
@@ -39,19 +49,19 @@ typesToggle.addEventListener('click', () => {
   typesSubmenu.classList.toggle('open');
 });
 
-// ---------- FILTRE PAR TYPE (lu depuis l'URL) ----------
+// ---------- FILTRE PAR ATELIER (lu depuis l'URL) ----------
 const params = new URLSearchParams(window.location.search);
-const activeType = params.get('type') || '';
+const activeAtelier = params.get('atelier') || '';
 
 document.querySelectorAll('.filter-chip').forEach(chip => {
-  if (chip.dataset.type === activeType) chip.classList.add('active');
+  if (chip.dataset.atelier === activeAtelier) chip.classList.add('active');
 });
 
 const galerieTitle = document.getElementById('galerieTitle');
 const galerieSubtitle = document.getElementById('galerieSubtitle');
-if (activeType && TYPE_LABELS[activeType]){
-  galerieTitle.textContent = TYPE_LABELS[activeType];
-  galerieSubtitle.textContent = `Tous les travaux publiés de type "${TYPE_LABELS[activeType]}".`;
+if (activeAtelier && ATELIERS[activeAtelier]){
+  galerieTitle.textContent = ATELIERS[activeAtelier].label;
+  galerieSubtitle.textContent = `Tous les travaux publiés dans "${ATELIERS[activeAtelier].label}".`;
 }
 
 // ---------- GALERIE ----------
@@ -59,34 +69,33 @@ const projetsGrid = document.getElementById('projetsGrid');
 const projetsEmpty = document.getElementById('projetsEmpty');
 
 async function loadProjets(){
-  let query = sb
-    .from('urbanisme_projects')
-    .select('*')
-    .eq('status', 'approved')
-    .eq('is_public', true)
-    .order('created_at', { ascending: false });
+  const keysToQuery = activeAtelier && ATELIERS[activeAtelier]
+    ? [activeAtelier]
+    : Object.keys(ATELIERS);
 
-  if (activeType){
-    query = query.eq('travail_type', activeType);
-  }
+  const results = await Promise.all(keysToQuery.map(async key => {
+    const { data, error } = await sb
+      .from(ATELIERS[key].table)
+      .select('*')
+      .eq('status', 'approved')
+      .eq('is_public', true)
+      .order('created_at', { ascending: false });
+    if (error || !data) return [];
+    return data.map(p => ({ ...p, _atelierKey: key }));
+  }));
 
-  const { data, error } = await query;
+  const all = results.flat().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-  if (error){
-    projetsEmpty.textContent = "Impossible de charger les projets pour le moment.";
-    return;
-  }
-
-  if (!data || data.length === 0){
-    projetsEmpty.textContent = activeType
-      ? "Aucun travail publié dans cette catégorie pour le moment."
+  if (all.length === 0){
+    projetsEmpty.textContent = activeAtelier
+      ? "Aucun travail publié dans cet atelier pour le moment."
       : "Les travaux des étudiants en urbanisme s'afficheront ici bientôt. Sois parmi les premiers à soumettre le tien !";
     return;
   }
 
   projetsEmpty.remove();
 
-  data.forEach(p => {
+  all.forEach(p => {
     const card = document.createElement('div');
     card.className = 'projet-card';
     const imgHtml = p.cover_image_url
@@ -96,13 +105,14 @@ async function loadProjets(){
     card.innerHTML = `
       <div class="projet-image">
         ${imgHtml}
-        <span class="projet-badge">${TYPE_LABELS[p.travail_type] || p.travail_type}</span>
+        <span class="projet-badge">${ATELIERS[p._atelierKey].label}</span>
       </div>
       <div class="projet-body">
         <div class="projet-title">${p.title}</div>
         <div class="projet-meta">
           ${p.location ? `<span>${p.location}</span>` : ''}
           ${p.level ? `<span>${p.level}</span>` : ''}
+          ${p.enjeu_urbain ? `<span>${ENJEU_LABELS[p.enjeu_urbain] || p.enjeu_urbain}</span>` : ''}
         </div>
       </div>
     `;
@@ -115,20 +125,40 @@ async function loadProjets(){
 const detailOverlay = document.getElementById('detailOverlay');
 const detailContent = document.getElementById('detailContent');
 
+// Champs spécifiques à afficher en plus, par atelier (col -> libellé)
+const EXTRA_FIELD_LABELS = {
+  diagnostic: { zone_etudiee: 'Zone étudiée', methodologie: 'Méthodologie', donnees_population: 'Données population' },
+  atelier: { site: 'Site', commanditaire: 'Commanditaire', equipe: 'Équipe', brief_projet: 'Brief du projet' },
+  plan: { zone: 'Zone', type_zonage: 'Type de zonage', echelle: 'Échelle' },
+  memoire: { question_recherche: 'Question de recherche', encadrant: 'Encadrant', mots_cles: 'Mots-clés' },
+  sig: { logiciel_utilise: 'Logiciel utilisé', systeme_coordonnees: 'Système de coordonnées', couches_donnees: 'Couches de données' }
+};
+
 function openDetail(p){
   const imgHtml = p.cover_image_url
     ? `<img src="${p.cover_image_url}" alt="${p.title}">`
     : '';
+
+  const extras = EXTRA_FIELD_LABELS[p._atelierKey] || {};
+  const extraHtml = Object.entries(extras)
+    .filter(([col]) => p[col])
+    .map(([col, label]) => {
+      const val = Array.isArray(p[col]) ? p[col].join(', ') : p[col];
+      return `<div class="modal-block"><h4>${label}</h4><p>${val}</p></div>`;
+    }).join('');
+
   detailContent.innerHTML = `
     <div class="modal-image">${imgHtml}</div>
-    <span class="projet-badge" style="position:static; display:inline-block; margin-bottom:10px;">${TYPE_LABELS[p.travail_type] || p.travail_type}</span>
+    <span class="projet-badge" style="position:static; display:inline-block; margin-bottom:10px;">${ATELIERS[p._atelierKey].label}</span>
     <h2>${p.title}</h2>
     <div class="modal-block">
       <p>${p.description || ''}</p>
     </div>
+    ${extraHtml}
     <div class="projet-meta" style="border:none; padding-top:0; margin-top:14px;">
       ${p.location ? `<span>📍 ${p.location}</span>` : ''}
       ${p.level ? `<span>🎓 ${p.level}</span>` : ''}
+      ${p.enjeu_urbain ? `<span>⚑ ${ENJEU_LABELS[p.enjeu_urbain] || p.enjeu_urbain}</span>` : ''}
     </div>
   `;
   detailOverlay.classList.add('open');
