@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revue — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:sans-serif;font-size:0.72rem;background:#211712;color:#f2e4c8;padding:7px 16px;">
+  <a href="https://lakou-inivesite.vercel.app/" style="color:#f2e4c8;text-decoration:none;font-weight:700;">🏠 Lakou Inivesite</a>
+  <span style="opacity:0.4;">›</span>
+  <a href="https://lakou-archi-rho.vercel.app/" style="color:#f2e4c8;text-decoration:none;font-weight:700;">Lakou Archi</a>
+  <span style="opacity:0.4;">›</span>
+  <a href="index.html" style="color:#f2e4c8;text-decoration:none;font-weight:700;">Urbanisme</a>
+  <span style="opacity:0.4;">›</span>
+  <span style="opacity:0.6;">Revue</span>
+</div>
+
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="connexion.html" data-close>Connexion / Inscription</a>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord</a>
+  <a href="parametres.html" data-close>Paramètres</a>
+</nav>
+
+<section class="galerie-hero">
+  <h1>La Revue</h1>
+  <p>Réflexions, portraits, actualités et savoir-faire des collectifs — le journal de la communauté urbanisme.</p>
+</section>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-chip active" data-slug="" onclick="setCategory('', this)">Tout</button>
+</div>
+
+<section style="max-width:1100px; margin:0 auto; padding:0 20px;">
+  <input type="text" id="searchInput" placeholder="Rechercher un titre..."
+    style="width:100%; padding:12px 14px; border-radius:8px; border:1px solid var(--liseret); background:rgba(255,255,255,0.04); color:var(--blan); font-family:'Inter',sans-serif;">
+</section>
+
+<section class="projets" id="revueGrid">
+  <div class="empty-state" id="revueEmpty">Chargement...</div>
+</section>
+
+<div style="text-align:center; padding-bottom:30px;">
+  <button class="filter-chip hidden" id="loadMoreBtn" onclick="loadArticles(false)">Charger plus</button>
+</div>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<button class="fab" id="fabBtn" aria-label="Écrire un article">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<!-- MODAL : écrire un article -->
+<div class="modal-overlay" id="writeOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close-write>×</button>
+    <div class="modal-handle"></div>
+    <h2>Écrire dans la Revue</h2>
+    <p style="font-size:0.85rem; color:var(--txt-doux); margin-top:6px;">Ton article sera examiné avant publication.</p>
+
+    <form id="writeForm">
+      <div class="form-group">
+        <label for="w-title">Titre</label>
+        <input type="text" id="w-title" required>
+      </div>
+      <div class="form-group">
+        <label for="w-category">Rubrique</label>
+        <select id="w-category" required></select>
+      </div>
+      <div class="form-group">
+        <label for="w-collectif">Publier au nom d'un collectif (optionnel)</label>
+        <select id="w-collectif"><option value="">— En ton nom propre —</option></select>
+      </div>
+      <div class="form-group">
+        <label for="w-excerpt">Résumé court</label>
+        <input type="text" id="w-excerpt">
+      </div>
+      <div class="form-group">
+        <label for="w-content">Contenu</label>
+        <textarea id="w-content" required style="min-height:140px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="w-cover">Image de couverture</label>
+        <input type="file" id="w-cover" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label for="w-gallery">Galerie / carousel (plusieurs images)</label>
+        <input type="file" id="w-gallery" accept="image/*" multiple>
+      </div>
+      <div class="form-group">
+        <label for="w-video">Vidéo (150s max)</label>
+        <input type="file" id="w-video" accept="video/*">
+        <div class="form-hint" id="videoStatusMsg"></div>
+        <video id="videoPreview" style="display:none; width:100%; border-radius:8px; margin-top:8px;" controls></video>
+      </div>
+      <div class="form-group">
+        <label for="w-pdf">Document PDF (optionnel)</label>
+        <input type="file" id="w-pdf" accept="application/pdf">
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%; margin-top:16px;" id="writeSaveBtn">Envoyer</button>
+      <div id="writeStatus"></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="revue.js"></script>
+</body>
+</html>
