@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collectif — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="connexion.html" data-close>Connexion / Inscription</a>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord</a>
+</nav>
+
+<div id="collectifWrap" class="dash-wrap">
+  <div class="empty-state">Chargement...</div>
+</div>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<button class="fab hidden" id="fabAddContent" aria-label="Ajouter du contenu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<!-- MODAL : ajouter du contenu au collectif -->
+<div class="modal-overlay" id="contentOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close-content>×</button>
+    <div class="modal-handle"></div>
+    <h2>Ajouter du contenu</h2>
+    <p style="font-size:0.85rem; color:var(--txt-doux); margin-top:6px;">Sera examiné avant publication dans la Revue.</p>
+
+    <form id="contentForm">
+      <div class="form-group">
+        <label for="k-title">Titre</label>
+        <input type="text" id="k-title" required>
+      </div>
+      <div class="form-group">
+        <label for="k-body">Contenu</label>
+        <textarea id="k-body" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="k-cover">Image de couverture</label>
+        <input type="file" id="k-cover" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label for="k-gallery">Galerie / carousel (plusieurs images)</label>
+        <input type="file" id="k-gallery" accept="image/*" multiple>
+      </div>
+      <div class="form-group">
+        <label for="k-video">Vidéo (150s max)</label>
+        <input type="file" id="k-video" accept="video/*">
+        <div class="form-hint" id="videoStatusMsg"></div>
+        <video id="videoPreview" style="display:none; width:100%; border-radius:8px; margin-top:8px;" controls></video>
+      </div>
+      <div class="form-group">
+        <label for="k-pdf">Document PDF (optionnel)</label>
+        <input type="file" id="k-pdf" accept="application/pdf">
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%; margin-top:16px;" id="contentSaveBtn">Envoyer</button>
+      <div id="contentStatus"></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="collectif-detail.js"></script>
+</body>
+</html>
