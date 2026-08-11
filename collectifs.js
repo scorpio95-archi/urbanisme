@@ -6,6 +6,13 @@ const SUPABASE_URL = 'https://rqtkcnpibhgmnbzuwyfq.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_Uz7jG2Q8EQPTjDRTIo1jCA_xwOzFkJw';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+function sanitizeFileName(name){
+  const parts = String(name).split('.');
+  const ext = parts.length > 1 ? parts.pop() : '';
+  const base = parts.join('.').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9_-]/g, '-').slice(0, 60) || 'fichier';
+  return ext ? `${base}.${ext}` : base;
+}
+
 // ---------- MENU HAMBURGER ----------
 const burgerBtn = document.getElementById('burgerBtn');
 const menuPanel = document.getElementById('menuPanel');
@@ -117,7 +124,7 @@ createForm.addEventListener('submit', async (e) => {
     let coverUrl = null;
     const coverFile = document.getElementById('c-cover').files[0];
     if (coverFile){
-      const path = `collectifs/${Date.now()}-${coverFile.name}`;
+      const path = `collectifs/${Date.now()}-${sanitizeFileName(coverFile.name)}`;
       const { error: upErr } = await sb.storage.from('urbanisme').upload(path, coverFile);
       if (upErr) throw upErr;
       coverUrl = sb.storage.from('urbanisme').getPublicUrl(path).data.publicUrl;
