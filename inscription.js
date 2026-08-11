@@ -1,5 +1,8 @@
 /* ============================================================
    URBANISME — inscription.js
+   Le rôle est choisi ici en exception (communauté niche) — mais
+   il DOIT passer par les métadonnées du signUp, jamais par une
+   update directe après coup (bloquée par trg_prevent_role_change).
    ============================================================ */
 
 const SUPABASE_URL = 'https://rqtkcnpibhgmnbzuwyfq.supabase.co';
@@ -7,7 +10,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_Uz7jG2Q8EQPTjDRTIo1jCA_xwOzFkJw';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ---------- BASCULE ÉTUDIANT / ENSEIGNANT ----------
-let currentRole = 'student';
+let currentRole = 'student'; // valeur interne UI ; convertie en FR à l'envoi
 const roleButtons = document.querySelectorAll('.role-btn');
 const studentFields = document.getElementById('studentFields');
 const teacherFields = document.getElementById('teacherFields');
@@ -21,6 +24,10 @@ roleButtons.forEach(btn => {
     teacherFields.style.display = currentRole === 'teacher' ? 'block' : 'none';
   });
 });
+
+function roleFr(){
+  return currentRole === 'teacher' ? 'enseignant' : 'etudiant';
+}
 
 // ---------- LISTE DES ÉCOLES ----------
 const schoolSelect = document.getElementById('s-school');
@@ -60,10 +67,14 @@ signupForm.addEventListener('submit', async (e) => {
   const schoolOther = schoolChoice === 'autre' ? document.getElementById('s-school-other').value : null;
 
   try {
+    // Le rôle part dans raw_user_meta_data : handle_new_user() le lit
+    // et l'assigne à la création du profil. C'est le SEUL canal valide —
+    // une update après coup serait bloquée par trg_prevent_role_change.
     const { data: signUpData, error: signUpError } = await sb.auth.signUp({
       email,
       password,
       options: {
+        data: { role: roleFr() },
         emailRedirectTo: 'https://urbanisme-one.vercel.app/connexion.html'
       }
     });
@@ -73,12 +84,12 @@ signupForm.addEventListener('submit', async (e) => {
     const hasSession = !!signUpData.session;
 
     if (userId && hasSession){
-      // Met à jour le profil créé automatiquement à l'inscription
+      // Complète le profil déjà créé par handle_new_user() —
+      // on ne touche jamais au champ role ici.
       const { error: profileError } = await sb.from('profiles').update({
         full_name: fullName,
-        role: currentRole,
         school_id: schoolId,
-        school: schoolOther
+        school_other: schoolOther
       }).eq('id', userId);
       if (profileError) throw profileError;
 
@@ -86,7 +97,6 @@ signupForm.addEventListener('submit', async (e) => {
         const level = document.getElementById('s-level').value || null;
         await sb.from('student_profiles').upsert({
           profile_id: userId,
-          school_id: schoolId,
           level: level
         }, { onConflict: 'profile_id' });
       } else {
@@ -94,16 +104,14 @@ signupForm.addEventListener('submit', async (e) => {
         const exp = document.getElementById('s-experience').value || null;
         await sb.from('teacher_profiles').upsert({
           profile_id: userId,
-          school_id: schoolId,
           academic_title: title,
-          years_experience: exp
+          years_experience: exp || null
         }, { onConflict: 'profile_id' });
       }
 
       signupStatus.innerHTML = `<div class="submit-status ok">Compte créé et connecté ! Tu peux dès maintenant retourner à l'accueil.</div>`;
       signupForm.reset();
     } else {
-      // Pas de session immédiate = confirmation par email requise
       signupStatus.innerHTML = `<div class="submit-status ok">Compte créé ! Vérifie ton email pour confirmer ton adresse, puis connecte-toi — ton profil (${currentRole === 'student' ? 'étudiant' : 'enseignant'}) sera complété à ta première connexion.</div>`;
       signupForm.reset();
     }
