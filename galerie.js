@@ -116,57 +116,11 @@ async function loadProjets(){
         </div>
       </div>
     `;
-    card.addEventListener('click', () => openDetail(p));
+    card.addEventListener('click', () => window.location.href = `projet-detail.html?atelier=${p._atelierKey}&id=${p.id}`);
     projetsGrid.appendChild(card);
   });
 }
 
-// ---------- MODAL DÉTAIL ----------
-const detailOverlay = document.getElementById('detailOverlay');
-const detailContent = document.getElementById('detailContent');
-
-// Champs spécifiques à afficher en plus, par atelier (col -> libellé)
-const EXTRA_FIELD_LABELS = {
-  diagnostic: { zone_etudiee: 'Zone étudiée', methodologie: 'Méthodologie', donnees_population: 'Données population' },
-  atelier: { site: 'Site', commanditaire: 'Commanditaire', equipe: 'Équipe', brief_projet: 'Brief du projet' },
-  plan: { zone: 'Zone', type_zonage: 'Type de zonage', echelle: 'Échelle' },
-  memoire: { question_recherche: 'Question de recherche', encadrant: 'Encadrant', mots_cles: 'Mots-clés' },
-  sig: { logiciel_utilise: 'Logiciel utilisé', systeme_coordonnees: 'Système de coordonnées', couches_donnees: 'Couches de données' }
-};
-
-function openDetail(p){
-  const imgHtml = p.cover_image_url
-    ? `<img src="${p.cover_image_url}" alt="${p.title}">`
-    : '';
-
-  const extras = EXTRA_FIELD_LABELS[p._atelierKey] || {};
-  const extraHtml = Object.entries(extras)
-    .filter(([col]) => p[col])
-    .map(([col, label]) => {
-      const val = Array.isArray(p[col]) ? p[col].join(', ') : p[col];
-      return `<div class="modal-block"><h4>${label}</h4><p>${val}</p></div>`;
-    }).join('');
-
-  detailContent.innerHTML = `
-    <div class="modal-image">${imgHtml}</div>
-    <span class="projet-badge" style="position:static; display:inline-block; margin-bottom:10px;">${ATELIERS[p._atelierKey].label}</span>
-    <h2>${p.title}</h2>
-    <div class="modal-block">
-      <p>${p.description || ''}</p>
-    </div>
-    ${extraHtml}
-    <div class="projet-meta" style="border:none; padding-top:0; margin-top:14px;">
-      ${p.location ? `<span>📍 ${p.location}</span>` : ''}
-      ${p.level ? `<span>🎓 ${p.level}</span>` : ''}
-      ${p.enjeu_urbain ? `<span>⚑ ${ENJEU_LABELS[p.enjeu_urbain] || p.enjeu_urbain}</span>` : ''}
-    </div>
-  `;
-  detailOverlay.classList.add('open');
-}
-
-document.querySelectorAll('[data-close-detail]').forEach(btn =>
-  btn.addEventListener('click', () => detailOverlay.classList.remove('open'))
-);
-detailOverlay.addEventListener('click', (e) => { if (e.target === detailOverlay) detailOverlay.classList.remove('open'); });
+// ---------- (modal détail retiré — remplacé par projet-detail.html, pages partageables) ----------
 
 loadProjets();
