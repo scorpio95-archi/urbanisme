@@ -25,8 +25,27 @@
   <a href="index.html" class="logo-link">
     <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
   </a>
-  <button class="btn-logout" id="logoutBtn">Déconnexion</button>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord<small>Mes travaux et validations</small></a>
+  <a href="parametres.html" data-close>Paramètres<small>Infos, école, mot de passe</small></a>
+  <a href="connexion.html" data-close id="authMenuLink">Connexion / Inscription<small id="authMenuSub"></small></a>
+  <div class="menu-section">À propos</div>
+  <a href="apropos.html" data-close>À propos</a>
+  <a href="contact.html" data-close>Contact</a>
+  <a href="confidentialite.html" data-close>Confidentialité</a>
+</nav>
 
 <section class="dash-wrap" id="paramsWrap">
   <div class="empty-state">Chargement...</div>
