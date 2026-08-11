@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projet — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="connexion.html" data-close>Connexion / Inscription</a>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord</a>
+</nav>
+
+<div id="projetWrap" class="dash-wrap" style="max-width:720px;">
+  <div class="empty-state">Chargement...</div>
+</div>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="projet-detail.js"></script>
+</body>
+</html>
