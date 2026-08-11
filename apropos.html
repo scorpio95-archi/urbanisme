@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>À propos — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="connexion.html" data-close>Connexion / Inscription</a>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord</a>
+  <a href="parametres.html" data-close>Paramètres</a>
+  <div class="menu-section">À propos</div>
+  <a href="apropos.html" data-close>À propos</a>
+  <a href="contact.html" data-close>Contact</a>
+  <a href="confidentialite.html" data-close>Confidentialité</a>
+</nav>
+
+<section class="galerie-hero">
+  <h1>À propos</h1>
+  <p>Pourquoi une plateforme d'urbanisme en Haïti.</p>
+</section>
+
+<div class="intro" style="max-width:680px; padding-top:10px;">
+
+  <p>En Haïti, la ville ne s'est presque jamais construite à partir d'un plan. Port-au-Prince, Les Cayes, Cap-Haïtien, Jacmel — la plupart des quartiers qui les composent aujourd'hui ont grandi par nécessité plutôt que par conception : une famille qui bâtit sur un terrain hérité, un mur qui grimpe une pente trop raide, une rue qui n'a jamais été tracée mais que tout le monde emprunte. On appelle souvent ça l'urbanisme informel — mais pour ceux qui y vivent, ce n'est pas de l'informalité, c'est simplement la ville telle qu'elle existe.</p>
+
+  <div class="modal-block">
+    <h4>Une croissance sans filet</h4>
+    <p>Le pays ne dispose pas d'un cadastre national fiable, ni d'institutions de planification urbaine suffisamment outillées pour encadrer cette croissance. Les zones à risque — ravines, flancs de montagne, bords de rivière — se peuplent parce que ce sont souvent les seuls terrains encore accessibles. Chaque saison cyclonique et chaque secousse sismique rappellent le coût de cette absence de planification : 2010, puis 2021 dans le Grand-Sud, ont chacune révélé à quel point le bâti et le tracé urbain d'un quartier peuvent aggraver — ou limiter — une catastrophe.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Reconstruire, encore</h4>
+    <p>Après chaque désastre, la reconstruction s'est faite dans l'urgence, rarement avec le temps d'un vrai diagnostic territorial. Les urbanistes haïtiens qui ont voulu faire les choses autrement — penser la résilience, cartographier avant de bâtir, impliquer les communautés dans le projet plutôt que de le leur imposer — ont souvent travaillé sans budget, sans reconnaissance, parfois sans suite. Des collectifs se sont formés, ont porté des projets sur le terrain avec des mairies ou des quartiers, puis ont disparu faute de moyens. Leur travail ne devrait pas disparaître avec eux.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Ce que cette plateforme essaie de faire</h4>
+    <p>Urbanisme rassemble le travail des étudiants et des praticiens qui pensent la ville haïtienne aujourd'hui : diagnostics de quartier, projets menés avec de vraies communautés, plans d'aménagement, recherches de fond, cartographie. Elle donne aussi un espace aux collectifs — actifs ou disparus — pour que leur savoir-faire reste consultable et que d'autres puissent s'en inspirer plutôt que de repartir de zéro. Ce n'est pas une plateforme qui prétend résoudre l'urbanisme informel. C'est un endroit où le documenter, en discuter, et continuer à apprendre les uns des autres.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="apropos.js"></script>
+</body>
+</html>
