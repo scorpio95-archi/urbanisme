@@ -42,6 +42,25 @@ burgerBtn.addEventListener('click', () => toggleMenu());
 overlay.addEventListener('click', () => toggleMenu(false));
 document.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 
+// ---------- ÉTAT CONNEXION DANS LE MENU (persistant, pas de reconnexion par page) ----------
+(async function syncAuthMenu(){
+  const link = document.getElementById("authMenuLink");
+  if (!link) return;
+  const { data: { session } } = await sb.auth.getSession();
+  if (session){
+    link.setAttribute("href", "#");
+    link.childNodes[0].textContent = "Déconnexion";
+    const sub = document.getElementById("authMenuSub");
+    if (sub) sub.textContent = session.user.email || "";
+    link.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await sb.auth.signOut();
+      window.location.href = "index.html";
+    });
+  }
+})();
+
+
 const typesToggle = document.getElementById('typesToggle');
 const typesSubmenu = document.getElementById('typesSubmenu');
 typesToggle.addEventListener('click', () => {
