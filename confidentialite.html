@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confidentialité — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="connexion.html" data-close>Connexion / Inscription</a>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord</a>
+  <a href="parametres.html" data-close>Paramètres</a>
+  <div class="menu-section">À propos</div>
+  <a href="apropos.html" data-close>À propos</a>
+  <a href="contact.html" data-close>Contact</a>
+  <a href="confidentialite.html" data-close>Confidentialité</a>
+</nav>
+
+<section class="galerie-hero">
+  <h1>Confidentialité</h1>
+  <p>Ce que nous conservons, et pourquoi.</p>
+</section>
+
+<div class="intro" style="max-width:680px; padding-top:10px;">
+
+  <div class="modal-block">
+    <h4>Ce que nous collectons</h4>
+    <p>À l'inscription : ton nom, ton email, ton établissement et ton rôle (étudiant ou enseignant). Si tu soumets un travail, un collectif ou un article : les fichiers et informations que tu choisis d'y inclure. Si tu nous écris via le formulaire de contact : ton nom, ton email et ton message.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Ce que nous ne faisons jamais</h4>
+    <p>Nous ne vendons ni ne partageons tes données avec des tiers à des fins commerciales. Nous n'affichons pas de publicité. Ton adresse email n'est jamais visible publiquement — seuls ton nom et les informations que tu choisis de rendre publiques (bio, avatar, travaux) apparaissent sur la plateforme.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Qui peut voir quoi</h4>
+    <p>Les travaux, articles et pages de collectifs que tu soumets restent privés jusqu'à validation par un enseignant ou un administrateur. Une fois publiés, ils sont visibles publiquement, y compris par des personnes non inscrites. L'annuaire affiche ton nom, ton établissement et ton rôle à tous les visiteurs de la plateforme.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Sécurité des rôles</h4>
+    <p>Ton rôle (étudiant, enseignant, admin, visiteur) est protégé côté serveur : ni toi ni un tiers ne pouvez le modifier vous-même, même en manipulant les requêtes envoyées au site. Seul un administrateur peut changer le rôle d'un compte, et cette action est elle-même tracée.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Suppression de compte</h4>
+    <p>Tu peux demander la suppression de ton compte et de tes données à tout moment via le formulaire de contact. Les travaux déjà publiés et attribués à un collectif peuvent être conservés si le collectif souhaite les garder, sauf demande explicite de ta part.</p>
+  </div>
+
+  <div class="modal-block">
+    <h4>Contact</h4>
+    <p>Pour toute question sur tes données, écris-nous via la page <a href="contact.html" style="color:var(--orange);">Contact</a>.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="apropos.js"></script>
+</body>
+</html>
