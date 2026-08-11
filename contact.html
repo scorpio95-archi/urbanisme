@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Urbanisme — Lakou Archi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo-link">
+    <span class="logo-text">Urbanisme<small>Lakou Archi</small></span>
+  </a>
+  <button class="burger" id="burgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="menu-panel" id="menuPanel">
+  <div class="menu-section">Navigation</div>
+  <a href="index.html" data-close>Accueil</a>
+  <a href="galerie.html" data-close>Galerie de projets</a>
+  <a href="revue.html" data-close>Revue</a>
+  <a href="collectifs.html" data-close>Collectifs</a>
+  <div class="menu-section">Mon compte</div>
+  <a href="connexion.html" data-close>Connexion / Inscription</a>
+  <a href="tableau-de-bord.html" data-close>Tableau de bord</a>
+  <a href="parametres.html" data-close>Paramètres</a>
+  <div class="menu-section">À propos</div>
+  <a href="apropos.html" data-close>À propos</a>
+  <a href="contact.html" data-close>Contact</a>
+  <a href="confidentialite.html" data-close>Confidentialité</a>
+</nav>
+
+<section class="galerie-hero">
+  <h1>Contact</h1>
+  <p>Une question, un problème technique, une idée de partenariat — écris-nous.</p>
+</section>
+
+<div class="auth-wrap">
+  <form id="contactForm">
+    <div class="form-group">
+      <label for="c-nom">Nom</label>
+      <input type="text" id="c-nom" required>
+    </div>
+    <div class="form-group">
+      <label for="c-email">Email</label>
+      <input type="email" id="c-email" required>
+    </div>
+    <div class="form-group">
+      <label for="c-sujet">Sujet</label>
+      <select id="c-sujet">
+        <option value="general">Question générale</option>
+        <option value="technique">Problème technique</option>
+        <option value="partenariat">Partenariat / presse</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="c-message">Message</label>
+      <textarea id="c-message" rows="6" required></textarea>
+    </div>
+    <button type="submit" class="btn-primary" style="width:100%; margin-top:16px;" id="c-submit">Envoyer</button>
+    <div id="c-status"></div>
+  </form>
+</div>
+
+<footer>
+  <p>Une discipline de <strong>Lakou Archi</strong>, dans le réseau Lakou Inivesite.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="contact.js"></script>
+</body>
+</html>
